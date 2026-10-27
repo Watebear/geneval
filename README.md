@@ -96,3 +96,26 @@ python evaluation/summary_scores.py "<RESULTS_FOLDER>/results.jsonl"
 ```
 
 to get the score across each task, and the overall GenEval score.
+
+### LightX2V mini100
+
+After [setup](#setup), run the following command from the repository root against
+an existing LightX2V text-to-image server. The client requires `requests` and
+`Pillow` and calls `POST /v1/tasks/image/sync`.
+
+```bash
+python generation/lightx2v_generate.py \
+    prompts/evaluation_metadata_mini100.jsonl \
+    --server-url http://127.0.0.1:8000 \
+    --outdir outputs/mini100 \
+    --n-samples 1 --size 928 1664
+```
+
+This generates 100 images using the per-prompt seeds 42–141 stored in the subset.
+Replace `--server-url` with the server base URL and use a new or empty output
+directory. `--size` is height, width; steps, CFG and parallel settings come from
+the server startup configuration.
+
+Follow [Evaluation](#evaluation) with `<IMAGE_FOLDER>` set to `outputs/mini100`.
+The summary should report 100 images and 100 prompts; its score represents the
+mini100 subset.
